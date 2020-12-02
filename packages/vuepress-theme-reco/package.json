@@ -31,7 +31,7 @@
     "vue-click-outside": "1.1.0",
     "vuepress-plugin-smooth-scroll": "^0.0.9"
   },
-  "gitHead": "c3a1db8487bece9341b6269a0f6ebf910cd5462a",
+  "gitHead": "fdf69a5ef952cbe117ced65df5edca872081f23a",
   "_from": "vuepress-theme-reco@0.2.1",
   "_resolved": "http://registry.npm.taobao.org/vuepress-theme-reco/download/vuepress-theme-reco-0.2.1.tgz"
 }

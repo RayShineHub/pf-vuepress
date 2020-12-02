@@ -30,5 +30,6 @@
   },
   "publishConfig": {
     "registry": "https://registry.yarnpkg.com"
-  }
+  },
+  "gitHead": "fdf69a5ef952cbe117ced65df5edca872081f23a"
 }

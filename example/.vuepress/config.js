@@ -1,28 +1,28 @@
 module.exports = {
-  title: "vuepress-theme-reco",
+  title: "花点时间",
   description: 'A simple and beautiful vuepress blog theme.',
   dest: 'example/public',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
-  base: '/reco-example-test/',
+  base: '/',
   // theme: 'reco',
   theme: require.resolve('../../packages/vuepress-theme-reco'),
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/', icon: 'reco-home' },
-      { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' },
-      { text: 'sidebar', link: '/views/sidebar/' },
-      { text: 'sidebar', link: '/views/sidebargroup/' }
+      { text: '首页', link: '/', icon: 'reco-home' },
+      { text: '时间轴', link: '/timeline/', icon: 'reco-date' },
+      { text: '前端技术栈', link: '/views/front/' },
+      { text: '后端技术栈', link: '/views/web/' }
     ],
     sidebar: {
-      '/views/sidebar/': [
+      '/views/front/': [
         '',
         'bar1',
         'bar2'
       ],
-      '/views/sidebargroup/': [
+      '/views/web/': [
         {
           title: '基础',
           collapsable: true,
@@ -63,11 +63,11 @@ module.exports = {
     // 最后更新时间
     lastUpdated: 'Last Updated',
     // 作者
-    author: 'reco_luan',
+    author: 'pengfei.shao',
     // 备案号
     record: 'xxxx',
     // 项目开始时间
-    startYear: '2017',
+    startYear: '2020',
     /**
      * 密钥 (if your blog is private)
      */
