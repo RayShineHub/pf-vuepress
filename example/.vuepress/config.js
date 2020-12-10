@@ -7,8 +7,8 @@ module.exports = {
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
   base: '/',
-  // theme: 'reco',
-  theme: require.resolve('../../packages/vuepress-theme-reco'),
+  theme: 'reco',
+  // theme: require.resolve('../../packages/vuepress-theme-reco'),
   themeConfig: {
     nav: [
       { text: '首页', link: '/', icon: 'reco-home' },
@@ -16,6 +16,7 @@ module.exports = {
       { text: '前端技术栈', link: '/views/front/' },
       { text: '后端技术栈', link: '/views/web/' }
     ],
+    noFoundPageByTencent: false,
     sidebar: {
       '/views/front/': [
         '',
@@ -45,11 +46,11 @@ module.exports = {
     blogConfig: {
       category: {
         location: 2, // 在导航栏菜单中所占的位置，默认2
-        text: 'Category' // 默认 “分类”
+        text: '' // 默认 “分类”
       },
       tag: {
         location: 3, // 在导航栏菜单中所占的位置，默认3
-        text: 'Tag' // 默认 “标签”
+        text: '' // 默认 “标签”
       }
     },
     logo: '/head.png',
@@ -59,7 +60,7 @@ module.exports = {
     searchMaxSuggestions: 10,
     // 自动形成侧边导航
     subSidebar: 'auto',
-    sidebarDepth: 4,
+    sidebarDepth: 2,
     // 最后更新时间
     lastUpdated: 'Last Updated',
     // 作者
@@ -71,6 +72,21 @@ module.exports = {
     /**
      * 密钥 (if your blog is private)
      */
+
+    // keyPage: {
+    //   keys: ['your password'],
+    //   color: '#42b983',
+    //   lineColor: '#42b983'
+    // },
+
+    /**
+     * valine 设置 (if you need valine comment )
+     */
+
+    // valineConfig: {
+    //   appId: '...',// your appId
+    //   appKey: '...', // your appKey
+    // }
     friendLink: [
       {
         title: '午后南杂',
@@ -97,31 +113,31 @@ module.exports = {
      * 'twilight'
      */
   },
-  plugins: [
-    ['@vuepress-reco/vuepress-plugin-bulletin-popover', {
-      body: [
-        {
-          type: 'title',
-          content: '欢迎加入QQ交流群 🎉🎉🎉',
-          style: 'text-aligin: center;'
-        },
-        {
-          type: 'image',
-          src: '/rvcode_qq.png'
-        }
-      ],
-      footer: [
-        {
-          type: 'button',
-          text: '打赏',
-          link: '/donate'
-        },
-        {
-          type: 'button',
-          text: '打赏',
-          link: '/donate'
-        }
-      ]
-    }]
-  ]
+  // plugins: [
+  //   ['@vuepress-reco/vuepress-plugin-bulletin-popover', {
+  //     body: [
+  //       {
+  //         type: 'title',
+  //         content: '欢迎加入QQ交流群 🎉🎉🎉',
+  //         style: 'text-aligin: center;'
+  //       },
+  //       {
+  //         type: 'image',
+  //         src: '/rvcode_qq.png'
+  //       }
+  //     ],
+  //     footer: [
+  //       {
+  //         type: 'button',
+  //         text: '打赏',
+  //         link: '/donate'
+  //       },
+  //       {
+  //         type: 'button',
+  //         text: '打赏',
+  //         link: '/donate'
+  //       }
+  //     ]
+  //   }]
+  // ]
 }
