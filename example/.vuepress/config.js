@@ -65,11 +65,11 @@ module.exports = {
     subSidebar: 'auto',
     sidebarDepth: 4,
     // 最后更新时间
-    lastUpdated: 'Last Updated',
+    lastUpdated: '最后更新于 >>',
     // 作者
     author: 'pengfei.shao',
     // 备案号
-    record: 'xxxx',
+    // record: 'xxxx',
     // 项目开始时间
     startYear: '2020',
     /**
@@ -120,31 +120,13 @@ module.exports = {
      */
   },
   plugins: [
-  //   ['@vuepress-reco/vuepress-plugin-bulletin-popover', {
-  //     body: [
-  //       {
-  //         type: 'title',
-  //         content: '欢迎加入QQ交流群 🎉🎉🎉',
-  //         style: 'text-aligin: center;'
-  //       },
-  //       {
-  //         type: 'image',
-  //         src: '/rvcode_qq.png'
-  //       }
-  //     ],
-  //     footer: [
-  //       {
-  //         type: 'button',
-  //         text: '打赏',
-  //         link: '/donate'
-  //       },
-  //       {
-  //         type: 'button',
-  //         text: '打赏',
-  //         link: '/donate'
-  //       }
-  //     ]
-  //   }],
+    // 打赏插件
+    ["vuepress-plugin-sponsor", {
+      
+    }],
+    // 文章头部名人名言
+    ["vuepress-plugin-boxx"],
+    // 网页标题
     ['dynamic-title', {
         showIcon: "/favicon.ico",
         showText: "Welcome Back！",

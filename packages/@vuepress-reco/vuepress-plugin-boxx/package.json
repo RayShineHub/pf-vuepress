@@ -1,0 +1,32 @@
+{
+  "name": "vuepress-plugin-boxx",
+  "version": "0.0.7",
+  "description": "Simplification of VuePress Custom Containers!",
+  "keywords": [
+    "vuepress-theme-reco",
+    "boxx",
+    "vuepress"
+  ],
+  "homepage": "https://zpj80231.github.io/znote",
+  "bugs": {
+    "url": "https://github.com/zpj80231/vuepress-plugin-boxx/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zpj80231/vuepress-plugin-boxx.git"
+  },
+  "license": "MIT",
+  "author": "zpj80231 <zpj80231@163.com>",
+  "main": "index.js",
+  "scripts": {
+    "eslint-ext": "eslint --ext .js,.vue ./",
+    "eslint-fix": "eslint --fix --ext .js,.vue ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "vuepress-plugin-boxx": "^0.0.7"
+  },
+  "__npminstall_done": "Mon Dec 14 2020 21:27:29 GMT+0800 (中国标准时间)",
+  "_from": "vuepress-plugin-boxx@0.0.7",
+  "_resolved": "https://registry.npm.taobao.org/vuepress-plugin-boxx/download/vuepress-plugin-boxx-0.0.7.tgz"
+}
