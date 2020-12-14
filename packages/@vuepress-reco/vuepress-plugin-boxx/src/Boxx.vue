@@ -74,20 +74,20 @@ export default {
     async getContent () {
       const that = this
       if (that.list.length >= 100) return
-      await axios.get('https://v1.jinrishici.com/all.json').then((response) => {
+      axios.get('https://v1.jinrishici.com/all.json').then((response) => {
         const author = ` • <span style='font-size: 13px;'>` + response.data.author + `</span>`
         that.list.push({ 'title': response.data.origin + author, 'content': response.data.content })
       }).catch((e) => {
         console.log(e)
       })
-      await axios.get('https://v1.hitokoto.cn').then((response) => {
-        if (response.data.hitokoto == '' || response.data.hitokoto.length > 40) return
-        let author = ''
-        if (response.data.from_who != null) { author = ` • <span style='font-size: 13px;'>` + response.data.from_who + `</span>` }
-        that.list.push({ 'title': response.data.from + author, 'content': response.data.hitokoto })
-      }).catch((e) => {
-        console.log(e)
-      })
+      // axios.get('https://v1.hitokoto.cn').then((response) => {
+      //   if (response.data.hitokoto == '' || response.data.hitokoto.length > 40) return
+      //   let author = ''
+      //   if (response.data.from_who != null) { author = ` • <span style='font-size: 13px;'>` + response.data.from_who + `</span>` }
+      //   that.list.push({ 'title': response.data.from + author, 'content': response.data.hitokoto })
+      // }).catch((e) => {
+      //   console.log(e)
+      // })
       this.checkTitleAndConten()
     },
     getShowType (type) {

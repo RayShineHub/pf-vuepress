@@ -1,3 +1,5 @@
+set -e
+
 npm run build:example
 
 cd example/public

@@ -1,6 +1,6 @@
 ---
 home: true
-heroText: 不积小河，无以成江海;不积跬步，无以至千里;
+heroText: 善于发现，勇于实践;
 # tagline: A simple and beautiful vuepress blog theme.
 # heroImage: /hero.png
 # heroImageStyle: {
