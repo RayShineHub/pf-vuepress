@@ -12,28 +12,29 @@
         <Password v-show="!isHasKey" class="password-wrapper-out" key="out" />
       </transition>
       <div :class="{ 'hide': firstLoad || !isHasKey }">
-        <Navbar
-        v-if="shouldShowNavbar"
-        @toggle-sidebar="toggleSidebar"/>
+        <div :class="$frontmatter.home? 'wrapper-custom' : ''" :style="{ ...bgImageStyle }">
+          <Navbar
+          v-if="shouldShowNavbar"
+          @toggle-sidebar="toggleSidebar"/>
+          <div
+            class="sidebar-mask"
+            @click="toggleSidebar(false)"></div>
 
-        <div
-          class="sidebar-mask"
-          @click="toggleSidebar(false)"></div>
+          <Sidebar
+            :items="sidebarItems"
+            @toggle-sidebar="toggleSidebar">
+            <template slot="top">
+              <PersonalInfo />
+            </template>
+            <slot
+              name="sidebar-bottom"
+              slot="bottom"/>
+          </Sidebar>
 
-        <Sidebar
-          :items="sidebarItems"
-          @toggle-sidebar="toggleSidebar">
-          <template slot="top">
-            <PersonalInfo />
-          </template>
-          <slot
-            name="sidebar-bottom"
-            slot="bottom"/>
-        </Sidebar>
-
-        <Password v-show="!isHasPageKey" :isPage="true" class="password-wrapper-in" key="in"></Password>
-        <div :class="{ 'hide': !isHasPageKey }">
-          <slot></slot>
+          <Password v-show="!isHasPageKey" :isPage="true" class="password-wrapper-in" key="in"></Password>
+          <div :class="{ 'hide': !isHasPageKey }">
+            <slot></slot>
+          </div>
         </div>
       </div>
     </div>
@@ -68,10 +69,13 @@
         </div>
       </transition>
     </div>
+
+    <canvas id="canvas_snow" class="canvas_snow" v-show="$frontmatter.home"></canvas>
   </div>
 </template>
 
 <script>
+import snowShow from '../../public/scripts/snow.js'
 import Navbar from '@theme/components/Navbar'
 import Sidebar from '@theme/components/Sidebar'
 import PersonalInfo from '@theme/components/PersonalInfo'
@@ -141,6 +145,20 @@ export default {
         },
         userPageClass
       ]
+    },
+    // add by spf 20201211
+    bgImageStyle () {
+      const initBgImageStyle = {
+        backgroundPosition: '50% 50%',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundImage: `
+          url(${this.$frontmatter.bgImage
+          ? this.$withBase(this.$frontmatter.bgImage)
+          : require('../images/homeBg4.jpg')})
+        `
+      }
+      return this.$frontmatter.home ? initBgImageStyle : ''
     }
   },
 
@@ -152,6 +170,9 @@ export default {
     this.hasKey()
     this.hasPageKey()
     this.handleLoading()
+    if (this.$frontmatter.home) {
+      snowShow.startSnow()
+    }
   },
 
   methods: {
@@ -247,11 +268,20 @@ export default {
   .hide
     height 100vh
     overflow hidden
-
+.wrapper-custom {
+  height 100vh
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.canvas_snow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 </style>

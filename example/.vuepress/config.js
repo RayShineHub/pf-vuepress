@@ -1,10 +1,13 @@
 module.exports = {
   title: "花点时间",
-  description: 'A simple and beautiful vuepress blog theme.',
+  description: '',
   dest: 'example/public',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
+    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
+    ["script", { src: "/scripts/mouseClick.js" }],
+    ["script", { src: "/scripts/noConsole.js" }],
+    ["script", { src: "/scripts/fairyDustCursor.js" }]
   ],
   base: '/',
   theme: 'reco',
@@ -13,8 +16,8 @@ module.exports = {
     nav: [
       { text: '首页', link: '/', icon: 'reco-home' },
       { text: '时间轴', link: '/timeline/', icon: 'reco-date' },
-      { text: '前端技术栈', link: '/views/front/' },
-      { text: '后端技术栈', link: '/views/web/' }
+      // { text: '前端技术栈', link: '/views/front/' },
+      // { text: '后端技术栈', link: '/views/web/' }
     ],
     noFoundPageByTencent: false,
     sidebar: {
@@ -60,7 +63,7 @@ module.exports = {
     searchMaxSuggestions: 10,
     // 自动形成侧边导航
     subSidebar: 'auto',
-    sidebarDepth: 2,
+    sidebarDepth: 4,
     // 最后更新时间
     lastUpdated: 'Last Updated',
     // 作者
@@ -83,10 +86,13 @@ module.exports = {
      * valine 设置 (if you need valine comment )
      */
 
-    // valineConfig: {
-    //   appId: '...',// your appId
-    //   appKey: '...', // your appKey
-    // }
+    valineConfig: {
+      appId: 'C1QftJERODGumPjT0jYf4lU1-gzGzoHsz',// your appId
+      appKey: 'ArQ4h9IPpKU31g1XkDRgmX0n', // your appKey
+      placeholder: '请务必填写联系方式，方便及时回复！',
+      pageSize: 20,
+      enableQQ: true
+    },
     friendLink: [
       {
         title: '午后南杂',
@@ -113,7 +119,7 @@ module.exports = {
      * 'twilight'
      */
   },
-  // plugins: [
+  plugins: [
   //   ['@vuepress-reco/vuepress-plugin-bulletin-popover', {
   //     body: [
   //       {
@@ -138,6 +144,14 @@ module.exports = {
   //         link: '/donate'
   //       }
   //     ]
-  //   }]
-  // ]
+  //   }],
+    ['dynamic-title', {
+        showIcon: "/favicon.ico",
+        showText: "Welcome Back！",
+        hideIcon: "/favicon.ico",
+        hideText: "Wait ...",
+        recoverTime: 2000
+      }
+    ]
+  ]
 }

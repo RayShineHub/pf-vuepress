@@ -1,6 +1,6 @@
 <template>
   <div class="home-blog">
-    <div class="hero" :style="{ ...bgImageStyle }">
+    <div class="hero">
       <div>
         <ModuleTransition>
           <img
@@ -13,14 +13,14 @@
         </ModuleTransition>
 
         <ModuleTransition delay="0.04">
-          <h1 v-if="recoShowModule && $frontmatter.heroText !== null">
-            {{ $frontmatter.heroText || $title || 'vuePress-theme-reco' }}
+          <h1 v-if="recoShowModule && $frontmatter.heroText !== null" style="font-family: cursive;">
+            {{ $frontmatter.heroText || $title || '' }}
           </h1>
         </ModuleTransition>
 
         <ModuleTransition delay="0.08">
           <p v-if="recoShowModule && $frontmatter.tagline !== null" class="description">
-            {{ $frontmatter.tagline || $description || 'Welcome to your vuePress-theme-reco site' }}
+            {{ $frontmatter.tagline || $description || '' }}
           </p>
         </ModuleTransition>
       </div>
@@ -164,7 +164,7 @@ export default {
   padding: 0;
   margin: 0px auto;
   .hero {
-    margin $navbarHeight auto 0
+    margin 0 auto 0
     position relative
     box-sizing border-box
     padding 0 20px
@@ -181,6 +181,7 @@ export default {
       display: block;
       margin:0 auto 1.8rem;
       font-size: 2.5rem;
+      font-family: cursive;
     }
 
     .description {
@@ -274,6 +275,7 @@ export default {
       h1 {
         margin: 0 auto 1.8rem ;
         font-size: 2rem;
+        font-family: cursive;
       }
 
       .description {

@@ -1,7 +1,7 @@
 ---
 home: true
-heroText: vuepress-theme-reco
-tagline: A simple and beautiful vuepress blog theme.
+heroText: 不积小河，无以成江海;不积跬步，无以至千里;
+# tagline: A simple and beautiful vuepress blog theme.
 # heroImage: /hero.png
 # heroImageStyle: {
 #   maxWidth: '600px',
@@ -11,7 +11,8 @@ tagline: A simple and beautiful vuepress blog theme.
 #   background: '#fff',
 #   borderRadius: '1rem',
 # }
-# isShowTitleInHome: false
+isShowTitleInHome: true
+# bgImage: '../images/homeBg1.svg'
 actionText: Guide
 actionLink: /views/other/guide
 features:
