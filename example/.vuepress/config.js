@@ -49,11 +49,11 @@ module.exports = {
     blogConfig: {
       category: {
         location: 2, // 在导航栏菜单中所占的位置，默认2
-        text: '' // 默认 “分类”
+        text: '分类' // 默认 “分类”
       },
       tag: {
         location: 3, // 在导航栏菜单中所占的位置，默认3
-        text: '' // 默认 “标签”
+        text: '标签' // 默认 “标签”
       }
     },
     logo: '/head.png',
@@ -65,7 +65,7 @@ module.exports = {
     subSidebar: 'auto',
     sidebarDepth: 4,
     // 最后更新时间
-    lastUpdated: '最后更新于 >>',
+    lastUpdated: '最后更新于 ：',
     // 作者
     author: 'pengfei.shao',
     // 备案号
@@ -77,7 +77,7 @@ module.exports = {
      */
 
     // keyPage: {
-    //   keys: ['your password'],
+    //   keys: ['0114'],
     //   color: '#42b983',
     //   lineColor: '#42b983'
     // },
@@ -121,9 +121,9 @@ module.exports = {
   },
   plugins: [
     // 打赏插件
-    ["vuepress-plugin-sponsor", {
-      
-    }],
+    // ["vuepress-plugin-sponsor", {
+
+    // }],
     // 文章头部名人名言
     ["vuepress-plugin-boxx"],
     // 网页标题

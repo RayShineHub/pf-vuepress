@@ -1,33 +1,45 @@
 <template>
-  <header class="navbar">
-    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
+  <header class="navbar" >
+    <div class="nav-sub" :class="{fixed: isFixed, visible: isVisible}">
+      <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
 
-    <router-link
-      :to="$localePath"
-      class="home-link">
-      <img
-        class="logo"
-        v-if="$themeConfig.logo"
-        :src="$withBase($themeConfig.logo)"
-        :alt="$siteTitle">
-      <span
-        ref="siteName"
-        class="site-name"
-        v-if="$siteTitle">{{ $siteTitle }}</span>
-    </router-link>
+      <router-link
+        :to="$localePath"
+        class="home-link">
+        <img
+          class="logo"
+          v-if="$themeConfig.logo"
+          :src="$withBase($themeConfig.logo)"
+          :alt="$siteTitle">
+        <span
+          ref="siteName"
+          class="site-name"
+          :style="{color: isFixed ? '' : '#eee'}"
+          v-if="$siteTitle">{{ $siteTitle }}</span>
+      </router-link>
 
-    <div
-      class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
+
+      <div
+        ref="links"
+        class="links"
+        :style="{
+          'max-width': linksWrapMaxWidth? linksWrapMaxWidth + 'px' : ''}">
+
+        <Mode />
+        <AlgoliaSearchBox
+          v-if="isAlgoliaSearch"
+          :options="algolia"/>
+        <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
+        <NavLinks class="can-hide" :isNavFixed="isFixed"/>
+      </div>
+
+      <div class="nav-music"
+      :style="linksWrapOffsetWidth ? {
+        'right': linksWrapOffsetWidth + 'px'
       } : {}">
-
-      <Mode />
-      <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"/>
-      <SearchBox v-else-if="$themeConfig.search !== false && $frontmatter.search !== false"/>
-      <NavLinks class="can-hide"/>
+        <img class="avatar" :src="currentMusic? currentMusic.avatarImg : ''" />
+        <audio ref="audio" :autoplay="false" :src="currentMusic? currentMusic.url : ''"></audio>
+      </div>
     </div>
   </header>
 </template>
@@ -43,26 +55,46 @@ export default {
   components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox, Mode },
 
   data () {
+    let that = this
     return {
-      linksWrapMaxWidth: null
+      linksWrapMaxWidth: null,
+      linksWrapOffsetWidth: null,
+      fixedHeight: 0,
+      pageYOffset: 44,
+      isFixed: false,
+      isVisible: false
     }
   },
-
+  props: {
+    musicList: {
+      type: Array,
+      default: () => []
+    },
+    currentMusic: {
+      type: Object,
+      default: () => {}
+    }
+  },
   mounted () {
     const MOBILE_DESKTOP_BREAKPOINT = 719 // refer to config.styl
     const NAVBAR_VERTICAL_PADDING = parseInt(css(this.$el, 'paddingLeft')) + parseInt(css(this.$el, 'paddingRight'))
+    let that = this
     const handleLinksWrapWidth = () => {
       if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
-        this.linksWrapMaxWidth = null
+        that.linksWrapMaxWidth = null
       } else {
-        this.linksWrapMaxWidth = this.$el.offsetWidth - NAVBAR_VERTICAL_PADDING -
-          (this.$refs.siteName && this.$refs.siteName.offsetWidth || 0)
+        that.linksWrapMaxWidth = that.$el.offsetWidth - NAVBAR_VERTICAL_PADDING -
+          (that.$refs.siteName && that.$refs.siteName.offsetWidth || 0)
+        that.linksWrapOffsetWidth = that.$refs.links.offsetWidth || 0
       }
     }
     handleLinksWrapWidth()
     window.addEventListener('resize', handleLinksWrapWidth, false)
+    window.addEventListener('scroll', this.throttle(this.handleScroll, 500))
   },
-
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.throttle(this.handleScroll, 200))
+  },
   computed: {
     algolia () {
       return this.$themeLocaleConfig.algolia || this.$themeConfig.algolia || {}
@@ -74,6 +106,14 @@ export default {
   },
 
   methods: {
+    handleScroll () {
+      this.isFixed = window.pageYOffset > this.fixedHeight
+      this.throttle(this.handleVisible(), 200)
+    },
+    handleVisible () {
+      this.isVisible = window.pageYOffset < this.pageYOffset && window.pageYOffset > 0
+      this.pageYOffset = window.pageYOffset
+    },
     throttle (func, delay) {
       let timer = null
       let startTime = Date.now()
@@ -111,9 +151,31 @@ $navbar-horizontal-padding = 1.5rem
 .navbar
   padding $navbar-vertical-padding $navbar-horizontal-padding
   line-height $navbarHeight - 1.4rem
-  box-shadow var(--box-shadow)
-  background var(--background-color)
-  opacity .8
+  // background var(--background-color)
+  opacity 1
+  animation 1s ease 0s 1 normal none running headerNoOpacity
+  .nav-sub
+    top 0
+    left 0
+    right 0
+    box-sizing border-box
+    width 100%
+    border none
+    font-size 18px
+    color #eee
+  .fixed
+    position fixed
+    top -60px
+    z-index 20
+    padding 10px 36px
+    box-shadow var(--box-shadow)
+    background var(--default-color-6)
+    color var(--default-color-6)
+    -webkit-box-shadow 0 5px 6px -5px rgba(133,133,133,0.6)
+    transition transform 0.2s ease-in-out, opacity 0.2s ease-in-out
+  .visible
+    transition all 0.5s
+    transform translate3d(0, 100%, 0)
   a, span, img
     display inline-block
   .logo
@@ -125,8 +187,29 @@ $navbar-horizontal-padding = 1.5rem
   .site-name
     font-size 1.2rem
     font-weight 600
-    color var(--text-color)
+    color var(--text-color-nav)
     position relative
+  .nav-music
+    padding-right 1.5rem
+    box-sizing border-box
+    white-space nowrap
+    font-size 0.9rem
+    position absolute
+    right $navbar-horizontal-padding
+    top $navbar-vertical-padding
+    display flex
+    // background-color var(--background-color)
+    .avatar
+      height $navbarHeight - 1.4rem
+      min-width $navbarHeight - 1.4rem
+      margin-right 0.8rem
+      vertical-align top
+      border-radius 50%
+      box-shadow 0 1px 8px 1px rgba(0, 0, 0, 0.3)
+      -webkit-animation animal 1s infinite linear
+      -webkit-transform-origin center center
+      -ms-transform-origin center center
+      transform-origin center center
   .links
     padding-left 1.5rem
     box-sizing border-box
@@ -136,10 +219,20 @@ $navbar-horizontal-padding = 1.5rem
     right $navbar-horizontal-padding
     top $navbar-vertical-padding
     display flex
-    background-color var(--background-color)
+    // background-color var(--background-color)
     .search-box
       flex: 0 0 auto
       vertical-align top
+
+@-webkit-keyframes animal
+  0%
+    transform rotate(0deg)
+    -ms-transform rotate(0deg);
+    -webkit-transform rotate(0deg);
+  100%
+    transform rotate(-360deg)
+    -ms-transform rotate(-360deg)
+    -webkit-transform rotate(-360deg)
 
 @media (max-width: $MQMobile)
   .navbar

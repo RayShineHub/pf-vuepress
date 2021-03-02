@@ -21,6 +21,7 @@
       v-if="repoLink"
       :href="repoLink"
       class="repo-link"
+      :style="{color: isNavFixed ? '' : '#eee'}"
       target="_blank"
       rel="noopener noreferrer">
       <reco-icon :icon="`reco-${repoLabel.toLowerCase()}`" />
@@ -38,7 +39,12 @@ import NavLink from '@theme/components/NavLink'
 
 export default {
   components: { NavLink, DropdownLink, RecoIcon },
-
+  props: {
+    isNavFixed: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     userNav () {
       return this.$themeLocaleConfig.nav || this.$themeConfig.nav || []
@@ -161,7 +167,7 @@ export default {
   display inline-block
   a
     line-height 1.4rem
-    color var(--text-color)
+    color var(--text-color-nav)
     &:hover, &.router-link-active
       color $accentColor
       .iconfont

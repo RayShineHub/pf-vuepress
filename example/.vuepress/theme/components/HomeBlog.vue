@@ -1,7 +1,7 @@
 <template>
   <div class="home-blog">
     <div class="hero">
-      <div>
+      <div style="margin-top: -20px;">
         <ModuleTransition>
           <img
             class="hero-img"
@@ -13,7 +13,7 @@
         </ModuleTransition>
 
         <ModuleTransition delay="0.04">
-          <h1 v-if="recoShowModule && $frontmatter.heroText !== null" style="font-family: cursive;">
+          <h1 v-if="recoShowModule && $frontmatter.heroText !== null" style="font-size: 32px;" class="title">
             {{ $frontmatter.heroText || $title || '' }}
           </h1>
         </ModuleTransition>
@@ -180,10 +180,10 @@ export default {
     h1 {
       display: block;
       margin:0 auto 1.8rem;
-      font-size: 2.5rem;
-      font-family: cursive;
     }
-
+    .title {
+      color var(--default-color-7)
+    }
     .description {
       margin: 1.8rem auto;
       font-size: 1.6rem;

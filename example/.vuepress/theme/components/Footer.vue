@@ -59,8 +59,9 @@ export default {
 
 <style lang="stylus" scoped>
   .footer-wrapper {
+    background: none;
     padding: 1.5rem 2.5rem;
-    border-top: 1px solid var(--border-color);
+    // border-top: 1px solid var(--border-color);
     text-align: center;
     color: lighten($textColor, 25%);
     a {

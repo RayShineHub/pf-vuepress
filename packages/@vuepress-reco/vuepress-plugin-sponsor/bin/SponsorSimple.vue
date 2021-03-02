@@ -90,7 +90,6 @@ export default {
   },
   computed: {
     message () {
-      debugger
       return `主人忘记设置${this.currentMessageName}啦`
     }
   },

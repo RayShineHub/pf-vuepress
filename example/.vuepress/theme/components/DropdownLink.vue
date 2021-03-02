@@ -93,7 +93,7 @@ export default {
       margin-left 0.4rem
   .nav-dropdown
     .dropdown-item
-      color inherit
+      color var(--text-color)
       line-height 1.7rem
       h4
         margin 0.45rem 0 0
@@ -105,6 +105,7 @@ export default {
         .dropdown-subitem
           font-size 0.9em
       a
+        color var(--text-color)
         display block
         line-height 1.7rem
         position relative

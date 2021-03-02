@@ -88,6 +88,19 @@ export default {
       // }).catch((e) => {
       //   console.log(e)
       // })
+      // a	动画 b	漫画 c	游戏 d	文学 e	原创 f	来自网络 g	其他 h	影视 i	诗词 j	网易云 k	哲学 l	抖机灵
+      let typelist = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
+      axios.post('https://v1.alapi.cn/api/hitokoto', {
+        type: typelist[Math.floor((Math.random() * typelist.length) +1 )],
+        format: 'json'
+      }).then((response) => {
+        if (response.data.data.hitokoto == '' || response.data.data.hitokoto.length > 40) return
+        let author = ''
+        if (response.data.data.creator != null) { author = ` • <span style='font-size: 13px;'>` + response.data.data.creator + `</span>` }
+        that.list.push({ 'title': response.data.data.from + author, 'content': response.data.data.hitokoto })
+      }).catch((e) => {
+        console.log(e)
+      })
       this.checkTitleAndConten()
     },
     getShowType (type) {
@@ -104,7 +117,10 @@ export default {
     },
     getboxx () {
       // eslint-disable-next-line no-return-assign
-      return this.boxx = this.list[Math.floor(Math.random() * list.length)]
+      // 给请求一点点时间
+      setTimeout(() => {
+        return this.boxx = this.list[Math.floor(Math.random() * list.length) + 1]
+      }, 300)
     },
     checkTitleAndConten () {
       if (this.title != '' && this.content == '') {

@@ -1,81 +1,87 @@
 <template>
-  <div
-    class="theme-container"
-    :class="pageClasses"
-    @touchstart="onTouchStart"
-    @touchend="onTouchEnd">
-    <div v-if="!absoluteEncryption">
-      <transition name="fade">
-        <LoadingPage v-show="firstLoad" class="loading-wrapper" />
-      </transition>
-      <transition name="fade">
-        <Password v-show="!isHasKey" class="password-wrapper-out" key="out" />
-      </transition>
-      <div :class="{ 'hide': firstLoad || !isHasKey }">
-        <div :class="$frontmatter.home? 'wrapper-custom' : ''" :style="{ ...bgImageStyle }">
-          <Navbar
-          v-if="shouldShowNavbar"
-          @toggle-sidebar="toggleSidebar"/>
-          <div
-            class="sidebar-mask"
-            @click="toggleSidebar(false)"></div>
+  <div>
+    <div :style="{ ...bgImageStyle }"></div>
+    <div
+      class="theme-container"
+      :class="pageClasses"
+      @touchstart="onTouchStart"
+      @touchend="onTouchEnd">
+      <div v-if="!absoluteEncryption">
+        <transition name="fade">
+          <LoadingPage v-show="firstLoad" class="loading-wrapper" />
+        </transition>
+        <transition name="fade">
+          <Password v-show="!isHasKey" class="password-wrapper-out" key="out" />
+        </transition>
+        <div :class="{ 'hide': firstLoad || !isHasKey }">
+          <div :class="$frontmatter.home? 'wrapper-custom' : ''">
+            <Navbar
+            v-if="shouldShowNavbar"
+            :musicList="musicList"
+            :currentMusic="currentMusic"
+            @toggle-sidebar="toggleSidebar"/>
+            <div
+              class="sidebar-mask"
+              @click="toggleSidebar(false)"></div>
 
-          <Sidebar
-            :items="sidebarItems"
-            @toggle-sidebar="toggleSidebar">
-            <template slot="top">
-              <PersonalInfo />
-            </template>
-            <slot
-              name="sidebar-bottom"
-              slot="bottom"/>
-          </Sidebar>
+            <Sidebar
+              :items="sidebarItems"
+              @toggle-sidebar="toggleSidebar">
+              <template slot="top">
+                <PersonalInfo />
+              </template>
+              <slot
+                name="sidebar-bottom"
+                slot="bottom"/>
+            </Sidebar>
 
-          <Password v-show="!isHasPageKey" :isPage="true" class="password-wrapper-in" key="in"></Password>
-          <div :class="{ 'hide': !isHasPageKey }">
-            <slot></slot>
+            <Password v-show="!isHasPageKey" :isPage="true" class="password-wrapper-in" key="in"></Password>
+            <div :class="{ 'hide': !isHasPageKey }">
+              <slot></slot>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <transition name="fade">
-        <LoadingPage v-if="firstLoad" />
-        <Password v-else-if="!isHasKey" />
-        <div v-else>
-          <Navbar
-          v-if="shouldShowNavbar"
-          @toggle-sidebar="toggleSidebar"/>
-
-          <div
-            class="sidebar-mask"
-            @click="toggleSidebar(false)"></div>
-
-          <Sidebar
-            :items="sidebarItems"
-            @toggle-sidebar="toggleSidebar">
-            <template slot="top">
-              <PersonalInfo />
-            </template>
-            <slot
-              name="sidebar-bottom"
-              slot="bottom"/>
-          </Sidebar>
-
-          <Password v-if="!isHasPageKey" :isPage="true"></Password>
+      <div v-else>
+        <transition name="fade">
+          <LoadingPage v-if="firstLoad" />
+          <Password v-else-if="!isHasKey" />
           <div v-else>
-            <slot></slot>
-          </div>
-        </div>
-      </transition>
-    </div>
+            <Navbar
+            v-if="shouldShowNavbar"
+            :currentMusic="currentMusic"
+            @toggle-sidebar="toggleSidebar"/>
 
-    <canvas id="canvas_snow" class="canvas_snow" v-show="$frontmatter.home"></canvas>
+            <div
+              class="sidebar-mask"
+              @click="toggleSidebar(false)"></div>
+
+            <Sidebar
+              :items="sidebarItems"
+              @toggle-sidebar="toggleSidebar">
+              <template slot="top">
+                <PersonalInfo />
+              </template>
+              <slot
+                name="sidebar-bottom"
+                slot="bottom"/>
+            </Sidebar>
+
+            <Password v-if="!isHasPageKey" :isPage="true"></Password>
+            <div v-else>
+              <slot></slot>
+            </div>
+          </div>
+        </transition>
+      </div>
+
+      <!-- <canvas id="canvas_snow" class="canvas_snow" v-show="$frontmatter.home"></canvas> -->
+    </div>
   </div>
 </template>
 
 <script>
-import snowShow from '../../public/scripts/snow.js'
+// import snowShow from '../../public/scripts/snow.js'
 import Navbar from '@theme/components/Navbar'
 import Sidebar from '@theme/components/Sidebar'
 import PersonalInfo from '@theme/components/PersonalInfo'
@@ -96,6 +102,14 @@ export default {
     sidebarItems: {
       type: Array,
       default: () => []
+    },
+    musicList : {
+      type: Array,
+      default: () => []
+    },
+    currentMusic : {
+      type: Object,
+      default: () => {}
     }
   },
 
@@ -146,16 +160,21 @@ export default {
         userPageClass
       ]
     },
-    // add by spf 20201211
+    // add by spf 20210302 动态博客背景
     bgImageStyle () {
       const initBgImageStyle = {
+        width: '100%',
+        height: '100%',
+        position: 'fixed',
+        zIndex: '-1',
         backgroundPosition: '50% 50%',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
         backgroundImage: `
           url(${this.$frontmatter.bgImage
           ? this.$withBase(this.$frontmatter.bgImage)
-          : require('../images/homeBg4.jpg')})
+          : require('../images/'+ (Math.floor(Math.random() * 10) + 1) +'.jpg')})
         `
       }
       return this.$frontmatter.home ? initBgImageStyle : ''
@@ -166,13 +185,12 @@ export default {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
     })
-
     this.hasKey()
     this.hasPageKey()
     this.handleLoading()
-    if (this.$frontmatter.home) {
-      snowShow.startSnow()
-    }
+    // if (this.$frontmatter.home) {
+    //   snowShow.startSnow()
+    // }
   },
 
   methods: {
